@@ -11,11 +11,11 @@ export const StartGame = () => {
     const startPosition = useSelector( store => store.game);
     const dispatch = useDispatch()
 
-    console.log(startPosition)
+   
 
     const handleFirstMove = (type, direction) => {
         dispatch(fetchMove(startPosition.user.username, type, direction))
-        console.log(startPosition.currentPosition.actions)
+        
     }
 
     return (
@@ -47,9 +47,12 @@ export const StartGame = () => {
                       onClick={() => handleFirstMove(item.type, item.direction)}>{item.direction}
                       </Button>)
               })}
-              {startPosition.currentPosition.coordinates === "1,3" && <button type='button' onClick={() => {dispatch(ui.actions.restart())
+              {startPosition.currentPosition.coordinates === "1,3" && <Button  
+              type='button'
+              variant='contained' 
+              onClick={() => {dispatch(ui.actions.restart())
              dispatch(game.actions.restart())}
-            }>Restart game</button>}
+            }>Restart game</Button>}
               </ButtonGroup>  
         </Paper>)}</>
         // <div>

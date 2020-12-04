@@ -5,6 +5,7 @@ import { ui } from './ui'
 const initialGame = {user:
     { username: "" },
     currentPosition:{},
+    previousPosition:{},
     position:[]
 }
     
@@ -13,10 +14,22 @@ export const game = createSlice({
     initialState: initialGame,
     reducers: {
         startGame: (state, action) => {
-        console.log(action.payload)
         state.user.username = action.payload.username
-        state.currentPosition = {...action.payload.json} 
-        state.position = [...state.position, action.payload.json]    
+        if(state.previousPosition.coordinates !== action.payload.json.coordinates) {state.previousPosition = state.currentPosition
+            state.position = [...state.position, action.payload.json]}
+        else if(state.position.length === 1)
+            state.position = []
+        else 
+            state.position = state.position.slice(0,state.position.length - 2)
+        state.currentPosition = {...action.payload.json}
+
+        
+        //if(state.currentPosition !== state.position[state.position.length - 1])  
+        
+        // if(state.position.length > 2) {
+        //     console.log(state.position[state.position.length - 3].coordinates)
+        // if(state.currentPosition.coordinates == state.position[state.position.length - 3].coordinates) console.log('working')    }
+     
           
         },
         restart: () => {
@@ -30,7 +43,7 @@ export const game = createSlice({
 export const fetchStart = (username) => {
 
     return(dispatch) => {
-    console.log(username) 
+    
     dispatch(ui.actions.setLoading(true))
     dispatch(ui.actions.setStarted(true))          
     fetch('https://wk16-backend.herokuapp.com/start',{
@@ -40,7 +53,7 @@ export const fetchStart = (username) => {
         })
         .then(result => result.json())
         .then((json) => {
-            console.log(json)
+            
             dispatch(game.actions.startGame({json, username}))
             dispatch(ui.actions.setLoading(false))  
         })   
@@ -52,7 +65,6 @@ export const fetchMove = (username, type, direction) => {
     /* const gameUser = useSelector(store => store.user) */
      
      return(dispatch) => {
-     console.log('test') 
      dispatch(ui.actions.setLoading(true))         
      fetch('https://wk16-backend.herokuapp.com/action',{
          method: 'POST',
@@ -61,7 +73,6 @@ export const fetchMove = (username, type, direction) => {
          })
          .then(result => result.json())
          .then((json) => {
-             console.log(json)
              dispatch(game.actions.startGame({json, username}))
              dispatch(ui.actions.setLoading(false))  
          })   

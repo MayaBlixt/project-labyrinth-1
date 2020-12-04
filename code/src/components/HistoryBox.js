@@ -19,7 +19,7 @@ export const HistoryBox = ({ inputCoordinates }) => {
     height: 100px;
     width: 100px;
     position: absolute;
-    bottom: ${150 + coordinates[1]*100}px;
+    top: ${800 - coordinates[1]*100}px;
     left: ${400 + coordinates[0]*100}px;
     `
 

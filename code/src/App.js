@@ -10,6 +10,7 @@ import { StartButton } from 'components/StartButton'
 import { StartGame } from 'components/StartGame'
 import { Playerposition } from 'components/Playerposition'
 import { LoadingIndicator } from 'components/LoadingIndicator'
+import { Playerhistory } from 'components/Playerhistory'
 
 
 const reducer = combineReducers ({ 
@@ -38,10 +39,12 @@ export const App = () => {
     <MyPaper>
      <StartButton /> 
      <StartGame />
-     <LoadingIndicator />
+     {/* <LoadingIndicator /> */}
      </MyPaper>
      <Paper>
      <Playerposition/>
+     <LoadingIndicator />
+     <Playerhistory/>
      </Paper>
      </Container>
     </Provider>
